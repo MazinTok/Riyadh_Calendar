@@ -4,11 +4,14 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.ramotion.foldingcell.FoldingCell;
 
 import java.util.ArrayList;
@@ -19,14 +22,21 @@ import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
  * Example of using Folding Cell with ListView and ListAdapter
  */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     ListView theListView;
     FoldingCellListAdapter adapter;
     WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        sendScreenImageName();
         // get our list view
         theListView = (ListView) findViewById(R.id.mainListView);
 
@@ -78,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void sendScreenImageName() {
+        String name = getTitle().toString();
+
+        // [START screen_view_hit]
+        Log.i(TAG, "Setting screen name: " + name);
+        mTracker.setScreenName("view~" + name);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // [END screen_view_hit]
     }
     private class LongOperation extends AsyncTask<String, Void, ArrayList<News>> {
         @Override
