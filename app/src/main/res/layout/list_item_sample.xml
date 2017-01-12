@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<FrameLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:id="@+id/panel_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:descendantFocusability="blocksDescendants"-->
+    <!--android:layout_margin="0dp"-->
+    <!--android:padding="0dp">-->
+
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+
+        android:elevation="10dp"
+      >
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+>
+
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/frameLayout1"-->
+        <!--android:minHeight="200dp"-->
+        <!--&gt;-->
+        <ImageView
+        android:src="@drawable/ic_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            android:minHeight="200dp"
+        android:id="@+id/img_event"
+          />
+    <!--android:foreground="@drawable/gradient_shape"-->
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            android:minHeight="200dp"
+        android:background="@drawable/gradient_shape"/>
+    <!--</FrameLayout>-->
+    <TextView
+        android:id="@+id/txt_line1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        android:textColor="@color/white"
+        android:layout_margin="0dp"
+        android:layout_above="@+id/txt_line2" />
+    <TextView
+        android:id="@+id/txt_line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        android:textColor="@color/white"
+        android:layout_margin="0dp"
+        style="@android:style/TextAppearance.Holo.Small"
+        android:textSize="10sp"
+        android:layout_alignBottom="@+id/img_event" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
+    <!--android:background="#40000000"-->
+
+
+<!--</FrameLayout>-->
+
+
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--&lt;!&ndash;<FrameLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/panel_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:descendantFocusability="blocksDescendants"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_margin="0dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:padding="0dp">&ndash;&gt;-->
+<!--<LinearLayout-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:orientation="vertical"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+    <!--&gt;-->
+<!--&lt;!&ndash;<Button&ndash;&gt;-->
+<!--&lt;!&ndash;android:id="@+id/btn_go"&ndash;&gt;-->
+<!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;android:layout_gravity="top|right"&ndash;&gt;-->
+<!--&lt;!&ndash;android:text="Go" />&ndash;&gt;-->
+
+<!--<ImageView-->
+    <!--android:src="@drawable/ic_launcher"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:id="@+id/img_event" />-->
+
+<!--<com.etsy.android.grid.util.DynamicHeightTextView-->
+    <!--android:id="@+id/txt_line1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:background="#99000000"-->
+    <!--android:textColor="@color/grey"-->
+    <!--android:layout_margin="0dp" />-->
+<!--<com.etsy.android.grid.util.DynamicHeightTextView-->
+    <!--android:id="@+id/txt_line2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:background="#99000000"-->
+    <!--android:textColor="@color/grey"-->
+    <!--android:layout_margin="0dp"-->
+    <!--style="@android:style/TextAppearance.Holo.Small" />-->
+
+<!--</LinearLayout>-->
+
+    <!--&lt;!&ndash;</FrameLayout>&ndash;&gt;-->

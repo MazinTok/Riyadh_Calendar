@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bgContentTop"
+    android:minHeight="400dp"
+    android:visibility="gone"
+    android:descendantFocusability="blocksDescendants"
+   >
+    <!--android:paddingBottom="7dp"-->
+    <!--android:paddingLeft="12dp"-->
+    <!--android:paddingRight="12dp"-->
+    <!--android:paddingTop="7dp"-->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="300dp"
+        android:elevation="5dp"
+        >
+
+            >
+            <ImageView
+                android:src="@drawable/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dilg_img_event"
+                android:minHeight="200dp"
+
+                />
+            <!--android:foreground="@drawable/gradient_shape"-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="200dp"
+
+                android:background="@drawable/gradient_shape"
+                android:layout_alignBottom="@+id/dilg_img_event" />
+        <!--</FrameLayout>-->
+        <TextView
+            android:id="@+id/dilg_txt_line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+
+            android:textColor="@color/white"
+            android:layout_margin="0dp"
+            android:layout_above="@+id/dilg_txt_line2" />
+        <TextView
+            android:id="@+id/dilg_txt_line2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+
+            android:textColor="@color/white"
+            android:layout_margin="0dp"
+            style="@android:style/TextAppearance.Holo.Large"
+            android:textSize="8sp"
+            android:layout_alignBottom="@+id/dilg_img_event" />
+
+        <ImageButton
+            android:src="@drawable/icn_share5"
+            android:id="@+id/btn_share"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="false"
+            android:background="#00ffffff"
+            android:foregroundGravity="center"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+
+            android:layout_alignBottom="@+id/dilg_img_event" />
+        <ImageButton
+            android:src="@drawable/icn_add_calender"
+            android:id="@+id/btn_add_calenar"
+            android:layout_alignParentLeft="false"
+            android:layout_alignBottom="@+id/dilg_img_event"
+            android:background="#00ffffff"
+            android:foregroundGravity="center"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/btn_share"
+            android:layout_toRightOf="@+id/btn_share"
+             />
+        <ImageButton
+            android:src="@drawable/icn_maps"
+            android:id="@+id/btn_map"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentBottom="false"
+            android:background="#00ffffff"
+            android:foregroundGravity="center"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/btn_add_calenar"
+            android:layout_toRightOf="@+id/btn_add_calenar"
+            android:layout_alignBottom="@+id/dilg_img_event"
+             />
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_tital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dilg_txt_tital_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="0dp"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/dilg_txt_tital_str" />
+            <TextView
+                android:id="@+id/dilg_txt_tital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/text_background_color"
+                android:layout_margin="0dp"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_toLeftOf="@+id/dilg_txt_tital_str" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+
+        card_view:contentPadding="10dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dilg_txt_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/text_background_color"
+                android:layout_margin="0dp"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_toLeftOf="@+id/dilg_txt_location_str" />
+
+            <TextView
+                android:id="@+id/dilg_txt_location_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:padding="5dp"
+
+                android:layout_margin="0dp"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/dilg_txt_location_str" />
+
+            <!--<com.google.android.gms.maps.MapView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/mapView" />-->
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_detiales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dilg_txt_detiales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/text_background_color"
+                android:layout_margin="0dp"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_toLeftOf="@+id/dilg_txt_detiales_str" />
+
+            <TextView
+                android:id="@+id/dilg_txt_detiales_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:padding="5dp"
+                android:layout_margin="0dp"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/dilg_txt_detiales_str" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="2dp">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+        <TextView
+            android:id="@+id/dilg_txt_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/text_background_color"
+            android:layout_margin="0dp"
+            style="@android:style/TextAppearance.Holo.Small"
+            android:gravity="center" />
+        <!--</RelativeLayout>-->
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
