@@ -1,5 +1,7 @@
 package com.mazintokhais.projects.riyadhcalendar;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +16,10 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.ramotion.foldingcell.FoldingCell;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
@@ -40,39 +45,51 @@ public class MainActivity extends AppCompatActivity {
         // get our list view
         theListView = (ListView) findViewById(R.id.mainListView);
 
-        // prepare elements to display
-        final ArrayList<News> items = News.getTestingList();
+        // prepare elements to display from file if exist
+        ArrayList<News> items;
+        items = News.getTestingList();
+
+//        String textToCache = "Some text";
+//        boolean success = GetCacheDir.writeAllCachedText(this, "myEventsFile.txt", textToCache);
+//        String eventsText = GetCacheDir.readAllCachedText(this, "myEventsFile.txt");
+//
+//        if (eventsText != null)
+//        {
+//             items = News.getTestingList();
+//        }
+//        else {
+//             items = News.getTestingList();
+//        }
+//        items = new ArrayList<News>();
+
+        // load tasks from preference
+        SharedPreferences prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
+
+        try {
+
+            items = (ArrayList<News>) ObjectSerializer.deserialize(prefs.getString("TASKS", ObjectSerializer.serialize(new ArrayList<News>())));
+
+        } catch (IOException e) {
+            items = News.getTestingList();
+            e.printStackTrace();
+        }
+
+
 
         // add custom btn handler to first list item
-        items.get(0).setRequestBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
-            }
-        });
-        // refrech page-------------
-         mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
-        mWaveSwipeRefreshLayout.setWaveColor(Color.rgb(59,46,91));
-         mWaveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
-//        mWaveSwipeRefreshLayout.set
-        mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Do work to refresh the list here.
-                new LongOperation().execute("s");
-            }
-        });
+//        items.get(0).setRequestBtnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+
 
         // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
         final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items);
+
         new LongOperation().execute("s");
-        // add default btn handler for each request btn on each item if custom handler not found
-        adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "DEFAULT HANDLER FOR ALL BUTTONS", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         // set elements to adapter
         theListView.setAdapter(adapter);
@@ -85,6 +102,25 @@ public class MainActivity extends AppCompatActivity {
                 ((FoldingCell) view).toggle(false);
                 // register in adapter that state for selected cell is toggled
                 adapter.registerToggle(pos);
+            }
+        });
+
+        // refrech page-------------
+        mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
+        mWaveSwipeRefreshLayout.setWaveColor(Color.rgb(59,46,91));
+        mWaveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
+        mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Do work to refresh the list here.
+                new LongOperation().execute("s");
+            }
+        });
+        // add default btn handler for each request btn on each item if custom handler not found
+        adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "DEFAULT HANDLER FOR ALL BUTTONS", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -129,6 +165,20 @@ public class MainActivity extends AppCompatActivity {
 //                mGridView.setOnScrollListener(StaggeredGridActivity.this);
 //                mGridView.setOnItemClickListener(StaggeredGridActivity.this);
 //                mGridView.setOnItemLongClickListener(StaggeredGridActivity.this);
+
+
+                    // save the task list to preference
+                    SharedPreferences prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    try {
+                        editor.putString("TASKS", ObjectSerializer.serialize(result));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    editor.commit();
+
+
+
             }
             else
             {

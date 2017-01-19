@@ -163,7 +163,75 @@ public class HTMLRemoverParser {
             return null;
         }
     }
+public ArrayList<News> FileParser(String json)
+{
+    try {
 
+        ArrayList<News> LNews = new ArrayList();
+
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = builder.parse(json);
+
+        doc.getDocumentElement().normalize();
+
+
+        NodeList nList = doc.getElementsByTagName("item");
+
+        System.out.println();
+
+        for (int i = 0; i < nList.getLength(); i++) {
+
+            Node nNode = nList.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                News temp = new News();
+                Element eElement = (Element) nNode;
+
+                objBean = new HTMLRemoverBean();
+                vectParse.add(objBean);
+
+                objBean.title = getTagValue("title", eElement);
+                objBean.link = getTagValue("link", eElement);
+                objBean.pubdate = getTagValue("pubDate", eElement);
+                objBean.description =getTagValue("description", eElement);
+
+                Log.d("item",nNode.toString());
+
+                temp.setTxt(objBean.title);
+                temp.setUrl(objBean.link);
+                // temp.setPubDate(objBean.pubdate);
+
+                temp.setPubDate(objBean.pubdate);
+
+                int j = objBean.description.indexOf("<br>");
+                int t = objBean.description.indexOf("/>")+2;
+                temp.setDescraption(objBean.description);
+                temp.setDetials(objBean.description.substring(t));
+
+                temp.setContent(objBean.description.substring(0,t));
+                temp.setPubDate(objBean.description.substring(t,j));
+                temp.setDetials(temp.getDetials().replace(temp.getPubDate(),""));
+                temp.setDetials(temp.getDetials().substring(8));
+                temp.setLocation(temp.getDetials().substring(0,temp.getDetials().indexOf("<br>")));
+                temp.setDetials(temp.getDetials().replace(temp.getLocation(),""));
+                temp.setDetials(temp.getDetials().replace("<br>",""));
+
+                String URL ;
+                int a = temp.getContent().indexOf("http");
+                int b = temp.getContent().indexOf("width")-2;
+                //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
+                temp.setImageURL( temp.getContent().substring(a,b));
+
+                LNews.add(temp);
+
+            }
+        }
+    return LNews;
+
+    } catch (Exception e) {
+            e.printStackTrace();
+        return null;
+    }
+}
     public List<News> HTMLRemoverParserEvents(String Url) {
         try {
 
