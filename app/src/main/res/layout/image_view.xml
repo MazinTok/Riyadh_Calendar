@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:showIn="@layout/activity_main" >
+
+    <ImageView
+        android:src="@drawable/ic_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="200dp"
+        android:id="@+id/img_event"
+        />
+    <!--android:foreground="@drawable/gradient_shape"-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="200dp"
+        android:background="@drawable/gradient_shape"/>
+</FrameLayout>

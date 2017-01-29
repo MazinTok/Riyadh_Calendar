@@ -10,6 +10,7 @@
     android:minHeight="400dp"
     android:visibility="gone"
     android:descendantFocusability="blocksDescendants"
+
    >
     <!--android:paddingBottom="7dp"-->
     <!--android:paddingLeft="12dp"-->
@@ -23,7 +24,7 @@
         android:elevation="5dp"
         >
 
-            >
+
             <ImageView
                 android:src="@drawable/ic_launcher"
                 android:layout_width="match_parent"
@@ -90,7 +91,7 @@
             android:layout_width="40dp"
             android:padding="5dp"
             android:layout_margin="5dp"
-            android:layout_toEndOf="@id/btn_share"
+
             android:layout_toRightOf="@+id/btn_share"
              />
         <ImageButton
@@ -106,7 +107,7 @@
             android:layout_width="40dp"
             android:padding="5dp"
             android:layout_margin="5dp"
-            android:layout_toEndOf="@id/btn_add_calenar"
+
             android:layout_toRightOf="@+id/btn_add_calenar"
             android:layout_alignBottom="@+id/dilg_img_event"
              />
@@ -122,7 +123,8 @@
         card_view:cardCornerRadius="2dp"
         card_view:contentPadding="10dp"
         android:elevation="10dp"
-        android:layout_marginBottom="2dp">
+        android:layout_marginBottom="2dp"
+       >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -136,8 +138,8 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_margin="0dp"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+
                 android:text="@string/dilg_txt_tital_str" />
             <TextView
                 android:id="@+id/dilg_txt_tital"
@@ -147,7 +149,7 @@
                 android:textColor="@color/text_background_color"
                 android:layout_margin="0dp"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:layout_toLeftOf="@+id/dilg_txt_tital_str" />
+                android:layout_toEndOf="@+id/dilg_txt_tital_str" />
 
 
         </RelativeLayout>
@@ -174,7 +176,7 @@
                 android:textColor="@color/text_background_color"
                 android:layout_margin="0dp"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:layout_toLeftOf="@+id/dilg_txt_location_str" />
+                android:layout_toEndOf="@+id/dilg_txt_location_str" />
 
             <TextView
                 android:id="@+id/dilg_txt_location_str"
@@ -185,8 +187,8 @@
 
                 android:layout_margin="0dp"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+
                 android:text="@string/dilg_txt_location_str" />
 
             <!--<com.google.android.gms.maps.MapView-->
@@ -215,7 +217,7 @@
                 android:textColor="@color/text_background_color"
                 android:layout_margin="0dp"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:layout_toLeftOf="@+id/dilg_txt_detiales_str" />
+                android:layout_toEndOf="@+id/dilg_txt_detiales_str" />
 
             <TextView
                 android:id="@+id/dilg_txt_detiales_str"
@@ -225,8 +227,8 @@
                 android:padding="5dp"
                 android:layout_margin="0dp"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+
                 android:text="@string/dilg_txt_detiales_str" />
         </RelativeLayout>
 

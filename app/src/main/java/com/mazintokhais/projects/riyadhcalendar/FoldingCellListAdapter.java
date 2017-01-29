@@ -110,7 +110,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
                     .fit()
 //                .centerCrop()
                     .into(viewHolder.mimgEvent);
-
+//            viewHolder.mimgEventContent.setImageDrawable(viewHolder.mimgEvent.getDrawable());
 //-------------------------------------------
 
             dates = getItem(position).getPubDate().replace("2016", "");
@@ -130,15 +130,19 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
             //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
 //        String URL ;
 //        URL = getItem(position).getImageURL();// mData.get(position).getContent().substring(j,t);
-
+//
             Picasso.with(getContext())
                     .load(URL)
                     .error(R.drawable.ic_launcher)
-                    .placeholder(R.drawable.ic_launcher)
+                    .placeholder(viewHolder.mimgEvent.getDrawable())
 //                .resize(Integer.valueOf(((int) positionHeight)).intValue() * 745, 745)
                     .fit()
 //                .centerCrop()
                     .into(viewHolder.mimgEventContent);
+
+
+
+
 
             final String tital = getItem(position).getTxt();
             final String time = getItem(position).getPubDate();
@@ -191,7 +195,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
                     String shareBody = "Your body here";
                     String shareSub = "Your subject here";
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, tital);
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, time);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,tital +" \n "+ time);
                     context.startActivity(Intent.createChooser(sharingIntent, "Share using"));
                 }
             });

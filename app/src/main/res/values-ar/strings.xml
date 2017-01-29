@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">تقويم الرياض</string>
+
+    <string name="dilg_txt_tital_str">الاسم: </string>
+
+    <string name="dilg_txt_detiales_str">تفاصيل: </string>
+
+    <string name="dilg_txt_location_str">الموقع:</string>
+
+    <string name="dilg_txt_link_str">الاسم: </string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>

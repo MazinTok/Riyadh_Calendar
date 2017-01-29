@@ -11,12 +11,13 @@ package com.mazintokhais.projects.riyadhcalendar;
 public class AnalyticsApplication extends Application {
     private static GoogleAnalytics sAnalytics;
     private static Tracker mTracker;
-
+    static String languageToLoad;
     @Override
     public void onCreate() {
         super.onCreate();
 
         sAnalytics = GoogleAnalytics.getInstance(this);
+        languageToLoad  = "ar";
     }
     /**
      * Gets the default {@link Tracker} for this {@link Application}.
