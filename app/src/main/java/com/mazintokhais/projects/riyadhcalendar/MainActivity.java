@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter = new FoldingCellListAdapter(MainActivity.this, result);
                 theListView.setAdapter(adapter);
-                
+
                     // save the task list to preference
                      prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
