@@ -1,14 +1,22 @@
 package com.mazintokhais.projects.riyadhcalendar;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by mazoo_000 on 08/04/2015.
  */
 public class News implements Serializable {
+    @com.google.gson.annotations.SerializedName("id")
+    private String id;
     private String Txt;
     private String Url;
     private String ImageURL;
@@ -85,16 +93,27 @@ public class News implements Serializable {
         ArrayList<News> items = new ArrayList<>();
         items.add(new News("",""));
         items.add(new News("",""));
-//        items.add(new News());
-//        items.add(new Item("$23", "$116", "W 36th St, NY, 10015", "W 114th St, NY, 10037", 10, "TODAY", "11:10 AM"));
-//        items.add(new Item("$63", "$350", "W 36th St, NY, 10029", "56th Ave, NY, 10041", 0, "TODAY", "07:11 PM"));
-//        items.add(new Item("$19", "$150", "12th Ave, NY, 10012", "W 57th St, NY, 10048", 8, "TODAY", "4:15 AM"));
-//        items.add(new Item("$5", "$300", "56th Ave, NY, 10041", "W 36th St, NY, 10029", 0, "TODAY", "06:15 PM"));
+
         return items;
     }
     public static ArrayList<News> getFileList(String json) {
         HTMLRemoverParser ne = new HTMLRemoverParser();
         ArrayList<News> items =  ne.FileParser(json);
         return items;
+    }
+    public Date getdate() {
+        int t = getPubDate().indexOf("-")-1;
+         String startDate = getPubDate().substring(0, t);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy", Locale.ENGLISH);
+
+        try {
+            return dateFormat.parse(startDate);
+
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

@@ -20,22 +20,28 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.okhttp.OkHttpClient;
+
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 import static com.mazintokhais.projects.riyadhcalendar.AnalyticsApplication.languageToLoad;
-
+import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
     ListView theListView;
     FoldingCellListAdapter adapter;
     WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
@@ -43,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
     AnalyticsApplication application;
      SwitchCompat actionView;
     SharedPreferences prefs;
-
-    private DatabaseReference mDatabase;
-
+    private MobileServiceClient mClient;
+    private MobileServiceTable<News> mNewsTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,49 +61,14 @@ public class MainActivity extends AppCompatActivity {
         Localization();
         initalView();
         initalLisners();
+        initalAure();
+
             // Obtain the shared Tracker instance.
             application = (AnalyticsApplication) getApplication();
             mTracker = application.getDefaultTracker();
             sendScreenImageName();
 
-        //firebase-----------------------------------
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-////        mDatabase.child("Person").setValue("cos omak");
-////        mDatabase.child("dw").addListenerForSingleValueEvent(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot dataSnapshot) {
-////                String newPost = dataSnapshot.getValue(String.class);
-////                Toast.makeText(getApplicationContext(), newPost , Toast.LENGTH_SHORT).show();
-////                Log.d("sssssssssssssssss",newPost);
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError databaseError) {
-////                // ...
-////            }
-////        });
-//
-//        // prepare elements to display from file if exist
-//
-//
-//        mDatabase.child("events").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-////                String newPost = dataSnapshot.getValue(String.class);
-////                Toast.makeText(getApplicationContext(), newPost , Toast.LENGTH_SHORT).show();
-//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-//                    // TODO: handle the post
-//                   News n =  postSnapshot.getValue(News.class);
-//                    Log.d("sssssssssssssssss",n.getTxt().toString());
-//                    items.add(n);
-//                }
-//                Log.d("sssssssssssssssss",",.,.,.,.,.,.,.,");
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // ...
-//            }
-//        });
+
          ArrayList<News> items;
         items = News.getTestingList();
 
@@ -227,19 +197,45 @@ public class MainActivity extends AppCompatActivity {
 
             String url ;
             HTMLRemoverParser ne = new HTMLRemoverParser();
-//            http://www.eyeofriyadh.com/ar/rss/events.php?lang=ar&cat=riyadh
-//            http://www.eyeofriyadh.com/rss/events.php?cat=riyadh
+
+
+            //  checking device language
+            if(prefs.contains("LANG")) {
+                languageToLoad = prefs.getString("LANG", "");
+            }
             if  (languageToLoad.equals("ar"))
             {
-
-
-                url = "http://www.eyeofriyadh.com/ar/rss/events.php?lang=ar&cat=riyadh";
+                url = "  http://www.eyeofriyadh.com/ar/rss/events.php?lang=ar&cat=riyadh";
             }
             else
             {
                 url = "http://www.eyeofriyadh.com/rss/events.php?cat=riyadh";
             }
-            return   ne.HTMLRemoverParser(url);
+
+            ArrayList<News> results= new ArrayList<News>();
+            ArrayList<News> resultFromRS = ne.HTMLRemoverParser(url);
+
+             //adding events from service
+            try{
+                results = mNewsTable.where().field("lang").
+                        eq(val(languageToLoad)).execute().get();
+
+            } catch (final Exception e){
+                Log.d("News",e.toString());
+            }
+
+            //adding events from RSS
+            if ( resultFromRS != null)
+                results.addAll(resultFromRS);
+            //sorting list
+            Collections.sort(results, new Comparator<News>() {
+                public int compare(News o1, News o2) {
+                    if (o1.getdate() == null || o2.getdate() == null)
+                        return 0;
+                    return o1.getdate().compareTo(o2.getdate());
+                }
+            });
+            return   results;
         }
 
         @Override
@@ -253,19 +249,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<News> result) {
             super.onPostExecute(result);
 
-            if (result != null) {
-//                for (News data : result) {
-//                    mAdapter.add(data);
-//                    mData.add(data);
-//                }
+            if (!result.isEmpty()) {
+
                 adapter = new FoldingCellListAdapter(MainActivity.this, result);
                 theListView.setAdapter(adapter);
-//                mGridView.setAdapter(mAdapter);
-//                mGridView.setOnScrollListener(StaggeredGridActivity.this);
-//                mGridView.setOnItemClickListener(StaggeredGridActivity.this);
-//                mGridView.setOnItemLongClickListener(StaggeredGridActivity.this);
-
-
+                
                     // save the task list to preference
                      prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
@@ -290,6 +278,34 @@ public class MainActivity extends AppCompatActivity {
             mWaveSwipeRefreshLayout.setRefreshing(false);
         }
     }
+    private void initalAure()
+    {
+        try{
+            // Mobile Service URL and key
+            mClient = new MobileServiceClient(
+                    "https://riyadhcal.azurewebsites.net",
+                    this);
 
+            // Extend timeout from default of 10s to 20s
+            mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
+                @Override
+                public OkHttpClient createOkHttpClient() {
+                    OkHttpClient client = new OkHttpClient();
+                    client.setReadTimeout(20, TimeUnit.SECONDS);
+                    client.setWriteTimeout(20, TimeUnit.SECONDS);
+                    return client;
+                }
+            });
+
+            // Get the Mobile Service Table instance to use
+            mNewsTable = mClient.getTable(News.class);
+        } catch (MalformedURLException e) {
+//        createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+            Log.d("News initalAure",e.toString());
+        } catch (Exception e){
+            Log.d("News initalAure",e.toString());
+//        createAndShowDialog(e, "Error");
+        }
+    }
 
 }

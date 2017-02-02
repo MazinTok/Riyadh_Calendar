@@ -39,6 +39,7 @@ dependencies {
 
     compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
     compile 'com.google.android.gms:play-services-analytics:9.0.0'
+    compile 'com.microsoft.azure:azure-mobile-android:3.1.0'
     testCompile 'junit:junit:4.12'
 }
 
