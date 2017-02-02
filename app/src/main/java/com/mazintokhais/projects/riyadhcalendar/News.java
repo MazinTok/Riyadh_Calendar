@@ -9,14 +9,14 @@ import java.util.ArrayList;
  * Created by mazoo_000 on 08/04/2015.
  */
 public class News implements Serializable {
-    String Txt;
-    String Url;
-    private String mImageURL;
+    private String Txt;
+    private String Url;
+    private String ImageURL;
     private String content;
-    String descraption;
-    String pubDate;
-    String mDetials;
-    String mLocation;
+    private String descraption;
+    private String pubDate;
+    private String Detials;
+    private String Location;
     private View.OnClickListener requestBtnClickListener;
     public String getDescraption() {
         return descraption;
@@ -32,65 +32,52 @@ public class News implements Serializable {
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
-    public News(String txt, String url) {
-        Txt = txt;
+    public News(String _txt, String url) {
+        Txt = _txt;
         Url = url;
         setContent("");
     }
-
     public News() {
     }
-
     public String getTxt() {
         return Txt;
     }
-
     public String getUrl() {
         return Url;
     }
-
-    public void setTxt(String txt) {
-        Txt = txt;
+    public void setTxt(String _txt) {
+        Txt = _txt;
     }
-
     public void setUrl(String url) {
         Url = url;
     }
-
     public String getContent() {
         return content;
     }
-
     public void setContent(String content) {
         this.content = content;
     }
-
     public String getImageURL() {
-        return mImageURL;
+        return ImageURL;
     }
-
     public void setImageURL(String mImageURL) {
-        this.mImageURL = mImageURL;
+        this.ImageURL = mImageURL;
     }
     public String getDetials() {
-        return mDetials;
+        return Detials;
     }
-
     public void setDetials(String mDetials) {
-        this.mDetials = mDetials;
+        this.Detials = mDetials;
     }
     public String getLocation() {
-        return mLocation;
+        return Location;
     }
-
     public void setLocation(String mLocation) {
-        this.mLocation = mLocation;
+        this.Location = mLocation;
     }
-
     public View.OnClickListener getRequestBtnClickListener() {
         return requestBtnClickListener;
     }
-
     public void setRequestBtnClickListener(View.OnClickListener requestBtnClickListener) {
         this.requestBtnClickListener = requestBtnClickListener;
     }

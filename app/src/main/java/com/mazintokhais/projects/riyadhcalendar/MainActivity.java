@@ -20,12 +20,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ramotion.foldingcell.FoldingCell;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 import static com.mazintokhais.projects.riyadhcalendar.AnalyticsApplication.languageToLoad;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     AnalyticsApplication application;
      SwitchCompat actionView;
     SharedPreferences prefs;
+
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +61,53 @@ public class MainActivity extends AppCompatActivity {
             mTracker = application.getDefaultTracker();
             sendScreenImageName();
 
-            // prepare elements to display from file if exist
-            ArrayList<News> items;
-            items = News.getTestingList();
+        //firebase-----------------------------------
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+////        mDatabase.child("Person").setValue("cos omak");
+////        mDatabase.child("dw").addListenerForSingleValueEvent(new ValueEventListener() {
+////            @Override
+////            public void onDataChange(DataSnapshot dataSnapshot) {
+////                String newPost = dataSnapshot.getValue(String.class);
+////                Toast.makeText(getApplicationContext(), newPost , Toast.LENGTH_SHORT).show();
+////                Log.d("sssssssssssssssss",newPost);
+////            }
+////
+////            @Override
+////            public void onCancelled(DatabaseError databaseError) {
+////                // ...
+////            }
+////        });
+//
+//        // prepare elements to display from file if exist
+//
+//
+//        mDatabase.child("events").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+////                String newPost = dataSnapshot.getValue(String.class);
+////                Toast.makeText(getApplicationContext(), newPost , Toast.LENGTH_SHORT).show();
+//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                    // TODO: handle the post
+//                   News n =  postSnapshot.getValue(News.class);
+//                    Log.d("sssssssssssssssss",n.getTxt().toString());
+//                    items.add(n);
+//                }
+//                Log.d("sssssssssssssssss",",.,.,.,.,.,.,.,");
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // ...
+//            }
+//        });
+         ArrayList<News> items;
+        items = News.getTestingList();
 
             try {
 
-                items = (ArrayList<News>) ObjectSerializer.deserialize(prefs.getString("TASKS", ObjectSerializer.serialize(new ArrayList<News>())));
+                items= (ArrayList<News>) ObjectSerializer.deserialize(prefs.getString("TASKS", ObjectSerializer.serialize(new ArrayList<News>())));
 
             } catch (IOException e) {
-                items = News.getTestingList();
+//                items = News.getTestingList();
                 e.printStackTrace();
             }
 

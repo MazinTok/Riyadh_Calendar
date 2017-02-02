@@ -97,6 +97,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
 //        String URL ;
             int j = getItem(position).getContent().indexOf("http");
             int t = getItem(position).getContent().indexOf("width") - 2;
+
             //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
 //        URL = getItem(position).getContent().substring(j,t);
             String URL;
