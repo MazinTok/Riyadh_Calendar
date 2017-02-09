@@ -8,8 +8,8 @@
     <string name="dilg_txt_location_str">الموقع:</string>
 
     <string name="dilg_txt_link_str">الاسم: </string>
-
+    <string name="str_en">En</string>
+    <string name="str_ar">ع </string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="internet_error"> حدث خطا بالاتصال بالانترنت </string>
 </resources>

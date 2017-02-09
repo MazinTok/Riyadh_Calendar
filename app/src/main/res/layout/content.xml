@@ -24,9 +24,9 @@
         android:elevation="5dp"
         >
 
-
+        <!--android:src="@drawable/ic_launcher"-->
             <ImageView
-                android:src="@drawable/ic_launcher"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/dilg_img_event"

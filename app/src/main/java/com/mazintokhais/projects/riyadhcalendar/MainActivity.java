@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +30,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -70,23 +70,22 @@ public class MainActivity extends AppCompatActivity {
 
 
          ArrayList<News> items;
-        items = News.getTestingList();
+//        items = News.getTestingList();
 
             try {
 
                 items= (ArrayList<News>) ObjectSerializer.deserialize(prefs.getString("TASKS", ObjectSerializer.serialize(new ArrayList<News>())));
 
+                // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
+                adapter = new FoldingCellListAdapter(this, items);
+
+                // set elements to adapter
+                theListView.setAdapter(adapter);
+
             } catch (IOException e) {
 //                items = News.getTestingList();
                 e.printStackTrace();
             }
-
-            // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
-            adapter = new FoldingCellListAdapter(this, items);
-
-            // set elements to adapter
-            theListView.setAdapter(adapter);
-
 
 //            // add default btn handler for each request btn on each item if custom handler not found
 //            adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // refrech page-------------
-
         mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -186,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
     private void sendScreenImageName() {
 
         // [START screen_view_hit]
-        Log.i(TAG, "Setting screen name: " + languageToLoad);
         mTracker.setScreenName("view~" + languageToLoad);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // [END screen_view_hit]
@@ -217,13 +214,18 @@ public class MainActivity extends AppCompatActivity {
 
              //adding events from service
             try{
-                results = mNewsTable.where().field("lang").
-                        eq(val(languageToLoad)).execute().get();
+                results  = mNewsTable.where().field("lang").
+                        eq(val(languageToLoad)).and().field("live").
+                        eq(val(true)).execute().get();
 
             } catch (final Exception e){
-                Log.d("News",e.toString());
+                Toast.makeText(MainActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
             }
 
+            for (News item : results) {
+                if(new Date().after(item.getEndDate()))
+                    results.remove(item);
+            }
             //adding events from RSS
             if ( resultFromRS != null)
                 results.addAll(resultFromRS);
@@ -271,8 +273,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(MainActivity.this, "حدث خطأ بالاتصال",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
 
             }
             mWaveSwipeRefreshLayout.setRefreshing(false);
@@ -300,11 +301,9 @@ public class MainActivity extends AppCompatActivity {
             // Get the Mobile Service Table instance to use
             mNewsTable = mClient.getTable(News.class);
         } catch (MalformedURLException e) {
-//        createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-            Log.d("News initalAure",e.toString());
+            Toast.makeText(getApplicationContext(), getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
         } catch (Exception e){
-            Log.d("News initalAure",e.toString());
-//        createAndShowDialog(e, "Error");
+            Toast.makeText(getApplicationContext(), getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 

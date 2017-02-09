@@ -6,20 +6,22 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.squareup.okhttp.OkHttpClient;
-
+import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static com.mazintokhais.projects.riyadhcalendar.AnalyticsApplication.languageToLoad;
@@ -30,11 +32,13 @@ public class SplashActivity extends AppCompatActivity {
     SharedPreferences prefs;
     private MobileServiceClient mClient;
     private MobileServiceTable<News> mNewsTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
         initalAure();
-
+        animation();
 
         prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
         SharedPreferences.Editor ed;
@@ -72,15 +76,20 @@ public class SplashActivity extends AppCompatActivity {
 
             try{
                 results  = mNewsTable.where().field("lang").
-                         eq(val(languageToLoad)).execute().get();
+                         eq(val(languageToLoad)).and().field("live").
+                        eq(val(true)).execute().get();
+
 
 
             } catch (final Exception e){
 //                createAndShowDialogFromTask(e, "Error");
-                Log.d("News",e.toString());
+                Toast.makeText(SplashActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
             }
 
-
+            for (News item : results) {
+                if(new Date().after(item.getEndDate()))
+                    results.remove(item);
+            }
             if ( resultFromRS != null)
             results.addAll(resultFromRS);
             Collections.sort(results, new Comparator<News>() {
@@ -124,9 +133,7 @@ public class SplashActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(SplashActivity.this, "حدث خطأ بالاتصال",
-                        Toast.LENGTH_SHORT).show();
-//                finish();
+                Toast.makeText(SplashActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -135,8 +142,7 @@ public class SplashActivity extends AppCompatActivity {
 //            mWaveSwipeRefreshLayout.setRefreshing(false);
         }
     }
-    private void initalAure()
-    {
+    private void initalAure(){
         try{
         // Mobile Service URL and key
         mClient = new MobileServiceClient(
@@ -157,10 +163,125 @@ public class SplashActivity extends AppCompatActivity {
         // Get the Mobile Service Table instance to use
         mNewsTable = mClient.getTable(News.class);
     } catch (MalformedURLException e) {
-            Log.d("News initalAure",e.toString());
+            Toast.makeText(SplashActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
     } catch (Exception e){
-            Log.d("News initalAure",e.toString());
+            Toast.makeText(SplashActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
 
     }
+    }
+    private void animation(){
+
+        ImageView img_logo = (ImageView) findViewById(R.id.img_logo);
+        final ImageView img_light1 = (ImageView) findViewById(R.id.img_light1);
+        final ImageView img_light2 = (ImageView) findViewById(R.id.img_light2);
+
+        Picasso.with(this)
+                .load(R.drawable.ic_splash)
+                .error(R.mipmap.ic_app)
+                .placeholder(R.mipmap.ic_app)
+                .fit()
+                .into(img_logo);
+
+        final Animation RotationLeft ;
+        RotationLeft = AnimationUtils.loadAnimation(this, R.anim.rotation_left);
+        final Animation RotationLeft2 ;
+        RotationLeft2 = AnimationUtils.loadAnimation(this, R.anim.rotation_left2);
+
+        final  Animation RotationRight;
+        RotationRight = AnimationUtils.loadAnimation(this, R.anim.rotation_right);
+        final Animation RotationRight2;
+        RotationRight2 = AnimationUtils.loadAnimation(this, R.anim.rotation_right2);
+
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int height = size.y /5;
+
+//        LogoAnimation = new TranslateAnimation(0, 0, 0, -height);
+//        LogoAnimation.setDuration(700);
+//        LogoAnimation.setFillAfter(true);
+
+        RotationLeft.setFillAfter(true);
+        RotationRight.setFillAfter(true);
+
+        img_light1.setDrawingCacheEnabled(true);
+        img_light2.setDrawingCacheEnabled(true);
+//        img_logo.startAnimation(LogoAnimation);
+        img_light1.startAnimation(RotationLeft);
+        img_light2.startAnimation(RotationRight);
+
+        img_logo.setVisibility(View.VISIBLE);
+
+        Animation.AnimationListener leftStartAnimationListener = new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                img_light1.startAnimation(RotationLeft2);
+            }
+        };
+        RotationLeft.setAnimationListener(leftStartAnimationListener);
+
+        Animation.AnimationListener leftEndAnimationListener = new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                img_light1.startAnimation(RotationLeft);
+            }
+        };
+        RotationLeft2.setAnimationListener(leftEndAnimationListener);
+
+        Animation.AnimationListener RightStartAnimationListener = new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                img_light2.startAnimation(RotationRight2);
+            }
+        };
+        RotationRight.setAnimationListener(RightStartAnimationListener);
+
+        Animation.AnimationListener RightEndAnimationListener = new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                img_light2.startAnimation(RotationRight);
+            }
+        };
+        RotationRight2.setAnimationListener(RightEndAnimationListener);
     }
 }

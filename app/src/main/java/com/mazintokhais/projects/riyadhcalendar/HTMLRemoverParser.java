@@ -4,8 +4,6 @@ package com.mazintokhais.projects.riyadhcalendar;
  * Created by mazoo_000 on 14/04/2015.
  */
 
-import android.util.Log;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,10 +34,6 @@ public class HTMLRemoverParser {
 
     HTMLRemoverBean objBean;
     Vector<HTMLRemoverBean> vectParse;
-
-    int mediaThumbnailCount;
-    boolean urlflag;
-    int count = 0;
 
     // for https workarawnd
     private void trustEveryone() {
@@ -88,7 +82,6 @@ public class HTMLRemoverParser {
 
             DocumentBuilder builder = DocumentBuilderFactory.newInstance()
                     .newDocumentBuilder();
-//==============
 
             //=============================
            Document doc = builder.parse(istream);
@@ -116,16 +109,12 @@ public class HTMLRemoverParser {
                     objBean.pubdate = getTagValue("pubDate", eElement);
                     objBean.description =getTagValue("description", eElement);
 
-                    Log.d("item",nNode.toString());
-
                     temp.setTxt(objBean.title);
                     temp.setUrl(objBean.link);
                    // temp.setPubDate(objBean.pubdate);
 
                     temp.setPubDate(objBean.pubdate);
-//<img src="http://www.eyeofriyadh.com/events/events_images/10806732fbabf.jpg"
-// width="100" hspace="5" vspace="5" align="left"/>
-// Fri, 06 Jan 2017 - Fri, 06 Jan 2017<br><br>مدارس العليا<br><br>تقيم مدارسنا في قسم البنات كرنفالا احتفاليا تحت مسمى ( ك
+
 
                     int j = objBean.description.indexOf("<br>");
                     int t = objBean.description.indexOf("/>")+2;
@@ -137,8 +126,7 @@ public class HTMLRemoverParser {
                     temp.setContent(objBean.description.substring(0,t));
                     temp.setPubDate(objBean.description.substring(t,j));
                     temp.setDetials(temp.getDetials().replace(temp.getPubDate(),""));
-//                    int a = temp.getDetials().indexOf("<br>");
-//                    temp.setDetials(temp.getDetials().replace("<br><br>","1"));
+
                     temp.setDetials(temp.getDetials().substring(8));
                     temp.setLocation(temp.getDetials().substring(0,temp.getDetials().indexOf("<br>")));
                     temp.setDetials(temp.getDetials().replace(temp.getLocation(),""));
@@ -163,8 +151,8 @@ public class HTMLRemoverParser {
             return null;
         }
     }
-public ArrayList<News> FileParser(String json)
-{
+    public ArrayList<News> FileParser(String json)
+    {
     try {
 
         ArrayList<News> LNews = new ArrayList();
@@ -194,8 +182,6 @@ public ArrayList<News> FileParser(String json)
                 objBean.pubdate = getTagValue("pubDate", eElement);
                 objBean.description =getTagValue("description", eElement);
 
-                Log.d("item",nNode.toString());
-
                 temp.setTxt(objBean.title);
                 temp.setUrl(objBean.link);
                 // temp.setPubDate(objBean.pubdate);
@@ -218,7 +204,6 @@ public ArrayList<News> FileParser(String json)
                 String URL ;
                 int a = temp.getContent().indexOf("http");
                 int b = temp.getContent().indexOf("width")-2;
-                //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
                 temp.setImageURL( temp.getContent().substring(a,b));
 
                 LNews.add(temp);
@@ -291,7 +276,6 @@ public ArrayList<News> FileParser(String json)
             return null;
         }
     }
-
     private String getTagValue(String sTag, Element eElement) {
         NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
                 .getChildNodes();
@@ -301,7 +285,6 @@ public ArrayList<News> FileParser(String json)
         return nValue.getNodeValue();
 
     }
-
     public static void main(String[] args) {
         new HTMLRemoverParser();
     }

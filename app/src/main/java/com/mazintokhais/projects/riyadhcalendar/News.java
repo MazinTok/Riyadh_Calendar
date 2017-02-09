@@ -1,13 +1,10 @@
 package com.mazintokhais.projects.riyadhcalendar;
 
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 
+import android.view.View;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -104,6 +101,21 @@ public class News implements Serializable {
     public Date getdate() {
         int t = getPubDate().indexOf("-")-1;
          String startDate = getPubDate().substring(0, t);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy", Locale.ENGLISH);
+
+        try {
+            return dateFormat.parse(startDate);
+
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    public Date getEndDate() {
+        int t = getPubDate().indexOf("-")+2;
+        String startDate = getPubDate().substring(t);
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy", Locale.ENGLISH);
 
         try {

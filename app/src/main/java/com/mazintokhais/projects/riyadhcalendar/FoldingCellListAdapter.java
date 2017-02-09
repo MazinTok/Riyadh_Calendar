@@ -3,22 +3,15 @@ package com.mazintokhais.projects.riyadhcalendar;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -52,14 +45,12 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
 
             viewHolder.txtLineOne = (TextView) cell.findViewById(R.id.txt_line1);
             viewHolder.txtLineTwo = (TextView) cell.findViewById(R.id.txt_line2);
-//            vh.btnGo = (Button) convertView.findViewById(R.id.btn_go);
             viewHolder.mimgEvent = (ImageView) cell.findViewById(R.id.img_event);
 
 //-----------------------------------
             viewHolder.txtLineOneContent = (TextView) cell.findViewById(R.id.dilg_txt_line1);
             viewHolder.txtLineTwoContent = (TextView) cell.findViewById(R.id.dilg_txt_line2);
             viewHolder.txtTital = (TextView) cell.findViewById(R.id.dilg_txt_tital);
-//        DynamicHeightTextView txtTime = (DynamicHeightTextView) dialog.findViewById(R.id.dilg_txt_time);
             viewHolder.txtDetiales = (TextView) cell.findViewById(R.id.dilg_txt_detiales);
             viewHolder.txtLocation = (TextView) cell.findViewById(R.id.dilg_txt_location);
             viewHolder.mimgEventContent = (ImageView) cell.findViewById(R.id.dilg_img_event);
@@ -68,14 +59,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
             viewHolder.btn_map = (ImageButton) cell.findViewById(R.id.btn_map);
             viewHolder.txtLink = (TextView)cell.findViewById(R.id.dilg_txt_link);
             //-----------------------------------
-//            viewHolder.price = (TextView) cell.findViewById(R.id.title_price);
-//            viewHolder.time = (TextView) cell.findViewById(R.id.title_time_label);
-//            viewHolder.date = (TextView) cell.findViewById(R.id.title_date_label);
-//            viewHolder.fromAddress = (TextView) cell.findViewById(R.id.title_from_address);
-//            viewHolder.toAddress = (TextView) cell.findViewById(R.id.title_to_address);
-//            viewHolder.requestsCount = (TextView) cell.findViewById(R.id.title_requests_count);
-//            viewHolder.pledgePrice = (TextView) cell.findViewById(R.id.title_pledge);
-//            viewHolder.contentRequestBtn = (TextView) cell.findViewById(R.id.content_request_btn);
+
             cell.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -98,15 +82,13 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
             int j = getItem(position).getContent().indexOf("http");
             int t = getItem(position).getContent().indexOf("width") - 2;
 
-            //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
-//        URL = getItem(position).getContent().substring(j,t);
             String URL;
             URL = getItem(position).getImageURL();// mData.get(position).getContent().substring(j,t);
 
             Picasso.with(getContext())
                     .load(URL)
-                    .error(R.drawable.ic_launcher)
-                    .placeholder(R.drawable.ic_launcher)
+                    .error(R.mipmap.ic_app)
+                    .placeholder(R.mipmap.ic_app)
 //                .resize(Integer.valueOf(((int) positionHeight)).intValue() * 745, 745)
                     .fit()
 //                .centerCrop()
@@ -122,27 +104,13 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
             viewHolder.txtLocation.setText(getItem(position).getLocation());
             viewHolder.txtTital.setText(getItem(position).getTxt());
             viewHolder.txtLink.setText(getItem(position).getUrl());
-//        txtTime.setText(dates);
-//        viewHolder.btn_share.setMaxHeight(txtLineOne.getHeight());
-//
-//            String URL ;
-//            int j =  mData.get(position).getContent().indexOf("http");
-//            int t =  mData.get(position).getContent().indexOf("width")-2;
-            //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
-//        String URL ;
-//        URL = getItem(position).getImageURL();// mData.get(position).getContent().substring(j,t);
-//
+
             Picasso.with(getContext())
                     .load(URL)
-                    .error(R.drawable.ic_launcher)
+                    .error(viewHolder.mimgEvent.getDrawable())
                     .placeholder(viewHolder.mimgEvent.getDrawable())
-//                .resize(Integer.valueOf(((int) positionHeight)).intValue() * 745, 745)
                     .fit()
-//                .centerCrop()
                     .into(viewHolder.mimgEventContent);
-
-
-
 
 
             final String tital = getItem(position).getTxt();
@@ -153,6 +121,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
             final String location = getItem(position).getLocation();
             final String link = getItem(position).getUrl();
 
+            final  int pos = position;
             //------------------------------------------------
             viewHolder.btn_add_calndar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -161,28 +130,30 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
                     //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
 
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy");
-                    SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh:mm aa");
-                    try {
-                        Date date = dateFormat.parse(startDate);
-                        Date date2 = dateFormat.parse(endDate);
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy");
+//                    SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh:mm aa");
+//                    try {
+//                        Date date = dateFormat.parse(startDate);
+//                        Date date2 = dateFormat.parse(endDate);
 
-                        Calendar cal = Calendar.getInstance();
+//                        Calendar cal = Calendar.getInstance();
                         Intent intent = new Intent(Intent.ACTION_EDIT);
                         intent.setType("vnd.android.cursor.item/event");
-                        intent.putExtra("beginTime", date.getTime());
+//                        intent.putExtra("beginTime", date.getTime());
+                    intent.putExtra("beginTime",  getItem(pos).getdate().getTime());
+
                         intent.putExtra("allDay", true);
                         intent.putExtra("rrule", "FREQ=YEARLY");
-                        intent.putExtra("endTime", date2.getTime());
+                        intent.putExtra("endTime", getItem(pos).getEndDate().getTime());
                         intent.putExtra("title", tital);
                         context.startActivity(intent);
 
-                        String out = dateFormat2.format(date);
-                        Log.e("Time", out);
-                    }
-                    catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+//                        String out = dateFormat2.format(date);
+//                        Log.e("Time", out);
+//                    }
+//                    catch (java.text.ParseException e) {
+//                        e.printStackTrace();
+//                    }
 
                 }
             });
@@ -269,27 +240,14 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
         this.defaultRequestBtnClickListener = defaultRequestBtnClickListener;
     }
 
-    // View lookup cache
-//    private static class ViewHolder {
-//        TextView price;
-//        TextView contentRequestBtn;
-//        TextView pledgePrice;
-//        TextView fromAddress;
-//        TextView toAddress;
-//        TextView requestsCount;
-//        TextView date;
-//        TextView time;
-//    }
+
     static class ViewHolder {
         TextView txtLineOne;
         TextView txtLineTwo;
-        Button btnGo;
         ImageView mimgEvent;
-
         TextView txtLineOneContent ;
         TextView txtLineTwoContent ;
         TextView txtTital ;
-        //        DynamicHeightTextView txtTime = (DynamicHeightTextView) dialog.findViewById(R.id.dilg_txt_time);
         TextView txtDetiales;
         TextView txtLocation ;
         ImageView mimgEventContent ;

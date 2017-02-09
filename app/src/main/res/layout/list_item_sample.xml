@@ -43,8 +43,9 @@
         <!--android:id="@+id/frameLayout1"-->
         <!--android:minHeight="200dp"-->
         <!--&gt;-->
+            <!--android:src="@drawable/ic_launcher"-->
         <ImageView
-        android:src="@drawable/ic_launcher"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
             android:minHeight="200dp"
