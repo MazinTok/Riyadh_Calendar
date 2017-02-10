@@ -4,18 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -37,11 +38,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        initalAure();
         animation();
 
         prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
-        SharedPreferences.Editor ed;
+
         if(!prefs.contains("TASKS")){
 
             new LongOperation().execute("s");
@@ -59,6 +59,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected ArrayList<News> doInBackground(String... params) {
             String url ;
+
             HTMLRemoverParser ne = new HTMLRemoverParser();
             if(prefs.contains("LANG")) {
                 languageToLoad = prefs.getString("LANG", "");
@@ -105,6 +106,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            initalAure();
 //            if (listview == null )
 //                Pbar2.setVisibility(ProgressBar.VISIBLE);
 
@@ -201,16 +203,16 @@ public class SplashActivity extends AppCompatActivity {
 //        LogoAnimation.setDuration(700);
 //        LogoAnimation.setFillAfter(true);
 
-        RotationLeft.setFillAfter(true);
-        RotationRight.setFillAfter(true);
+//        RotationLeft.setFillAfter(true);
+//        RotationRight.setFillAfter(true);
 
-        img_light1.setDrawingCacheEnabled(true);
-        img_light2.setDrawingCacheEnabled(true);
+//        img_light1.setDrawingCacheEnabled(true);
+//        img_light2.setDrawingCacheEnabled(true);
 //        img_logo.startAnimation(LogoAnimation);
         img_light1.startAnimation(RotationLeft);
         img_light2.startAnimation(RotationRight);
 
-        img_logo.setVisibility(View.VISIBLE);
+//        img_logo.setVisibility(View.VISIBLE);
 
         Animation.AnimationListener leftStartAnimationListener = new Animation.AnimationListener() {
 
