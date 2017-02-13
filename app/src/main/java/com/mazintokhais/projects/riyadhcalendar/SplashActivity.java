@@ -82,9 +82,15 @@ public class SplashActivity extends AppCompatActivity {
 
 
             } catch (final Exception e){
-//                createAndShowDialogFromTask(e, "Error");
-                Toast.makeText(SplashActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
+             runOnUiThread(new Runnable() {
+                public void run() {
+
+                    Toast.makeText(SplashActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
+                }
+            });
+
             }
+
 
             for (News item : results) {
                 if(new Date().after(item.getEndDate()))
@@ -201,8 +207,8 @@ public class SplashActivity extends AppCompatActivity {
 //        LogoAnimation.setDuration(700);
 //        LogoAnimation.setFillAfter(true);
 
-        RotationLeft.setFillAfter(true);
-        RotationRight.setFillAfter(true);
+//        RotationLeft.setFillAfter(true);
+//        RotationRight.setFillAfter(true);
 
         img_light1.setDrawingCacheEnabled(true);
         img_light2.setDrawingCacheEnabled(true);
