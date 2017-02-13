@@ -212,8 +212,8 @@ public class SplashActivity extends AppCompatActivity {
 //        RotationLeft.setFillAfter(true);
 //        RotationRight.setFillAfter(true);
 
-//        img_light1.setDrawingCacheEnabled(true);
-//        img_light2.setDrawingCacheEnabled(true);
+        img_light1.setDrawingCacheEnabled(true);
+        img_light2.setDrawingCacheEnabled(true);
 //        img_logo.startAnimation(LogoAnimation);
         img_light1.startAnimation(RotationLeft);
         img_light2.startAnimation(RotationRight);
