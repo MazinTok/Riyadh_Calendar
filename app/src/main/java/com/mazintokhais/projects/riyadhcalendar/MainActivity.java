@@ -219,7 +219,12 @@ public class MainActivity extends AppCompatActivity {
                         eq(val(true)).execute().get();
 
             } catch (final Exception e){
-                Toast.makeText(MainActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        Toast.makeText(MainActivity.this,getString(R.string.internet_error),Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             for (News item : results) {
@@ -279,8 +284,7 @@ public class MainActivity extends AppCompatActivity {
             mWaveSwipeRefreshLayout.setRefreshing(false);
         }
     }
-    private void initalAure()
-    {
+    private void initalAure() {
         try{
             // Mobile Service URL and key
             mClient = new MobileServiceClient(

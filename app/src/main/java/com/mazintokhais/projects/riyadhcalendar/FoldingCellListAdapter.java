@@ -127,19 +127,9 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
                 @Override
                 public void onClick(View v) {
 
-                    //temp.setContent("<p  align=\"center\">" + objBean.title + "</p>" + objBean.description.substring(0,j));
 
-
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy");
-//                    SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh:mm aa");
-//                    try {
-//                        Date date = dateFormat.parse(startDate);
-//                        Date date2 = dateFormat.parse(endDate);
-
-//                        Calendar cal = Calendar.getInstance();
                         Intent intent = new Intent(Intent.ACTION_EDIT);
                         intent.setType("vnd.android.cursor.item/event");
-//                        intent.putExtra("beginTime", date.getTime());
                     intent.putExtra("beginTime",  getItem(pos).getdate().getTime());
 
                         intent.putExtra("allDay", true);
@@ -148,30 +138,21 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
                         intent.putExtra("title", tital);
                         context.startActivity(intent);
 
-//                        String out = dateFormat2.format(date);
-//                        Log.e("Time", out);
-//                    }
-//                    catch (java.text.ParseException e) {
-//                        e.printStackTrace();
-//                    }
-
                 }
             });
-
             viewHolder.btn_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    String shareBody = "Your body here";
-                    String shareSub = "Your subject here";
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, tital);
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,tital +" \n "+ time);
+                    String shareBody =tital;
+                    String shareSub = tital +" \n "+ time +" \n "+ link +" \n \n"+ context.getString(R.string.shard_by)+" \n "+context.getString(R.string.playstore_link);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareBody);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,shareSub );
                     context.startActivity(Intent.createChooser(sharingIntent, "Share using"));
                 }
-            });
-
+            })
             viewHolder.btn_map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -215,7 +196,6 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
 
         return cell;
     }
-
     // simple methods for register cell state changes
     public void registerToggle(int position) {
         if (unfoldedIndexes.contains(position))
@@ -223,24 +203,18 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
         else
             registerUnfold(position);
     }
-
     public void registerFold(int position) {
         unfoldedIndexes.remove(position);
     }
-
     public void registerUnfold(int position) {
         unfoldedIndexes.add(position);
     }
-
     public View.OnClickListener getDefaultRequestBtnClickListener() {
         return defaultRequestBtnClickListener;
     }
-
     public void setDefaultRequestBtnClickListener(View.OnClickListener defaultRequestBtnClickListener) {
         this.defaultRequestBtnClickListener = defaultRequestBtnClickListener;
     }
-
-
     static class ViewHolder {
         TextView txtLineOne;
         TextView txtLineTwo;
