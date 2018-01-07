@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         animation();
 
-        prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
+          prefs = getSharedPreferences("SHARED_PREFS_FILE", Context.MODE_PRIVATE);
 
         if(!prefs.contains("TASKS")){
 

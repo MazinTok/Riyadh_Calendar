@@ -13,6 +13,6 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="internet_error"> حدث خطا بالاتصال بالانترنت </string>
     <string name="shard_by"> عن طريق تطبيق تقويم الرياض: </string>
-    <string name="playstore_link"> https://goo.gl/JiFJOS</string>
+    <string name="playstore_link"> http://riyadhcalendar.co/</string>
 
 </resources>

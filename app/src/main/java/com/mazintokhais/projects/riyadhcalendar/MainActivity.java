@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -227,9 +228,13 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
-            for (News item : results) {
-                if(new Date().after(item.getEndDate()))
-                    results.remove(item);
+            Iterator<News> i = results.iterator();
+            while (i.hasNext()) {
+                News s = i.next(); // must be called before you can call i.remove()
+                // Do something
+                if(new Date().after(s.getEndDate()))
+//                    results.remove(i);
+                    i.remove();
             }
             //adding events from RSS
             if ( resultFromRS != null)

@@ -152,7 +152,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<News> {
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,shareSub );
                     context.startActivity(Intent.createChooser(sharingIntent, "Share using"));
                 }
-            })
+            });
             viewHolder.btn_map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
