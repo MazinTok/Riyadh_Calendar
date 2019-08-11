@@ -66,11 +66,11 @@ public class SplashActivity extends AppCompatActivity {
             }
             if  (languageToLoad.equals("ar"))
             {
-                url = "http://www.eyeofriyadh.com/ar/rss/events.php?lang=ar&cat=riyadh";
+                url = "https://www.eyeofriyadh.com/ar/rss/events.php?lang=ar&cat=riyadh";
             }
             else
             {
-                url = "http://www.eyeofriyadh.com/rss/events.php?cat=riyadh";
+                url = "https://www.eyeofriyadh.com/rss/events.php?cat=riyadh";
             }
             ArrayList<News> results= new ArrayList<News>();
             ArrayList<News> resultFromRS = ne.HTMLRemoverParser(url);
